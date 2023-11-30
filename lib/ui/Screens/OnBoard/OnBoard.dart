@@ -6,6 +6,7 @@ import 'package:todo_list/ui/Screens/OnBoard/onBoard2.dart';
 import 'package:todo_list/ui/Screens/OnBoard/onboard3.dart';
 import 'package:todo_list/ui/Screens/WelcomeScreen/WelcomeScreen.dart';
 import 'package:todo_list/ui/custom_widgets/customColors.dart';
+import 'package:todo_list/ui/custom_widgets/customTxtBtn.dart';
 
 class OnBoard extends StatefulWidget {
   const OnBoard({super.key});
@@ -19,9 +20,9 @@ class _OnBoardState extends State<OnBoard> {
   bool onlastpage = false;
 
   final List<Widget> _onboardingScreens = [
-    OnBoard1(),
-    OnBoard2(),
-    OnBoard3(),
+    const OnBoard1(),
+    const OnBoard2(),
+    const OnBoard3(),
   ];
 
   @override
@@ -33,115 +34,75 @@ class _OnBoardState extends State<OnBoard> {
             color: AppColors.primaryColor,
             child: Column(
               children: [
-                Expanded(
-                  flex: 8,
-                  child: PageView(
-                      controller: _controller,
-                      onPageChanged: (index) {
-                        setState(
-                          () {
-                            onlastpage = (index == 2);
-                          },
-                        );
-                      },
-                      children: _onboardingScreens),
+                Container(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    top: 40,
+                  ),
+                  alignment: Alignment.centerLeft,
+                  child: txtbtn(
+                    taped: () {
+                      Get.to(
+                        const WelcomeScreen(),
+                      );
+                    },
+                    btntxt: 'SKIP',
+                    txtColor: Colors.white.withOpacity(0.67),
+                  ),
                 ),
                 Expanded(
+                  flex: 7,
+                  child: PageView(
+                    controller: _controller,
+                    onPageChanged: (index) {
+                      setState(
+                        () {
+                          onlastpage = (index == 2);
+                        },
+                      );
+                    },
+                    children: _onboardingScreens,
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
                   child: Container(
-
-                    padding: EdgeInsets.only(left: 30,right: 30,),
+                    padding: const EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                            onTap: () {
-                              _controller.previousPage(
-                                duration: Duration(microseconds: 500),
-                                curve: Curves.easeIn,
-                              );
-                            },
-                            child: Text("Back",style: TextStyle(
-                              color: Colors.white,
-                            ),),),
+                        txtbtn(
+                          taped: () {
+                            _controller.previousPage(
+                              duration: const Duration(microseconds: 500),
+                              curve: Curves.easeIn,
+                            );
+                          },
+                          btntxt: 'BACK',
+                          txtColor: Colors.white.withOpacity(0.67),
+                          btntxtSize: 18,
+                        ),
                         onlastpage
-                            ? GestureDetector(
-                                onTap: () {
+                            ? appButton(
+                                btnlabel: "GET STARTED",
+                                btntxtSize: 16,
+                                typed: () {
                                   Get.to(
-                                    WelcomeScreen(),
+                                    const WelcomeScreen(),
                                   );
                                 },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  alignment: Alignment.center,
-                                  height: 40,
-
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xff8567ff),
-                                        Color(0xff6c47ff),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //     color: Colors.blueGrey.withOpacity(0.9),
-                                    //     spreadRadius: 3,
-                                    //     offset: Offset(0, 3),
-                                    //     blurRadius: 15,
-                                    //   )
-                                    // ],
-                                  ),
-                                  child: Text(
-                                    "GET STARTED",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
-                                  ),
-                                ),
                               )
-                            : GestureDetector(
-                                onTap: () {
+                            : appButton(
+                                btnlabel: "NEXT",
+                                typed: () {
                                   _controller.nextPage(
-                                    duration: Duration(microseconds: 500),
+                                    duration: const Duration(microseconds: 500),
                                     curve: Curves.easeIn,
                                   );
                                 },
-                                child: Container(
-
-                                  alignment: Alignment.center,
-                                  height: 40,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0xff8567ff),
-                                        Color(0xff6c47ff),
-                                      ],
-                                    ),
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(10),
-                                    ),
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //     color: Colors.blueGrey.withOpacity(0.9),
-                                    //     spreadRadius: 3,
-                                    //     offset: Offset(0, 3),
-                                    //     blurRadius: 15,
-                                    //   )
-                                    // ],
-                                  ),
-                                  child: Text(
-                                    "NEXT",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17),
-                                  ),
-                                ),
                               ),
                       ],
                     ),
@@ -150,32 +111,24 @@ class _OnBoardState extends State<OnBoard> {
               ],
             ),
           ),
-          Container(
-              alignment: Alignment(0, 0.1),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 200,
-                    ),
-                    SmoothPageIndicator(
-                      effect: ExpandingDotsEffect(
-                        spacing: 5,
-                        dotHeight: 5,
-                        dotWidth: 8,
-                        dotColor: Colors.grey,
-                        activeDotColor: Colors.white,
-                      ),
-                      controller: _controller,
-                      count: 3,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 20,
-                    ),
-                  ],
+          Positioned(
+            top: MediaQuery.of(context).size.height / 1.75,
+            left: MediaQuery.of(context).size.width * 0.43,
+            child: Container(
+              alignment: Alignment.center,
+              child: SmoothPageIndicator(
+                effect: const ExpandingDotsEffect(
+                  spacing: 5,
+                  dotHeight: 5,
+                  dotWidth: 8,
+                  dotColor: Colors.grey,
+                  activeDotColor: Colors.white,
                 ),
-              )),
+                controller: _controller,
+                count: 3,
+              ),
+            ),
+          ),
         ],
       ),
     );

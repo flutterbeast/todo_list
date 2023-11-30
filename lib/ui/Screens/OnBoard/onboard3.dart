@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../custom_widgets/customColors.dart';
+import '../../custom_widgets/customTxtBtn.dart';
 
 class OnBoard3 extends StatelessWidget {
   const OnBoard3({super.key});
@@ -15,11 +17,42 @@ class OnBoard3 extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(
-            height: 80,
+          const Expanded(
+            flex: 6,
+            child: Image(
+              image: AssetImage("Assets/images/onboard3.png"),
+            ),
           ),
-          Image(
-            image: AssetImage("Assets/images/onboard3.png"),
+          Expanded(
+            flex: 1,
+            child: Container(
+              height: 30,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            flex: 3,
+            child: Column(
+              children: [
+                Heading1(
+                  txt: "Organize your tasks",
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.82,
+                  alignment: Alignment.center,
+                  child: Heading2(
+                    h2txt:
+                        "You can organize your daily tasks by adding your tasks into separate categories",
+                    h2Color: Colors.white.withOpacity(0.67),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
